@@ -1,4 +1,4 @@
-# vVersion Checker
+# Version Checker
 REST API to check if two version numbers are 'equal' or one is 'before' or 'after' the other
 
 ## Problem Statement
