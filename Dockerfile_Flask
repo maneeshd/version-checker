@@ -1,0 +1,18 @@
+# Build Image
+FROM python:3.7.6-alpine
+
+LABEL maintainer="Maneesh Divana <maneeshd77@gmail.com>"
+LABEL description="A slim image to run a Flask-Restful server for version checker"
+LABEL version="1.0"
+
+RUN apk add --no-cache --virtual .build-deps gcc libc-dev make \
+    && python -m pip install -U flask-restful==0.3.8 \
+    && apk del .build-deps gcc libc-dev make
+
+COPY flask_server.py /api
+
+WORKDIR /api
+
+EXPOSE 8000
+
+CMD ["python", "flask_server.py"]
