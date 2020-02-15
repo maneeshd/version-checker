@@ -7,11 +7,11 @@ REST API using FastAPI to check if one version number is
 """
 from fastapi import FastAPI
 from pydantic import BaseModel
-from starlette.responses import RedirectResponse, JSONResponse, HTMLResponse
+from starlette.responses import RedirectResponse, JSONResponse
 from re import compile as re_compile
 
 
-VERSION_REGEX = re_compile(r"^\d+[.\d]*$")
+VERSION_REGEX = re_compile(r"^\d+[.\d]*(?<!\.)$")
 
 
 async def check_versions(version_1: str, version_2: str) -> str:
@@ -27,8 +27,8 @@ async def check_versions(version_1: str, version_2: str) -> str:
     :return: "before" or "equal" or "after"
     :rtype: str
     """
-    ver_1_list = [int(c) for c in version_1.split(".")]
-    ver_2_list = [int(c) for c in version_2.split(".")]
+    ver_1_list = [int(c) for c in version_1.split(".") if c.isdigit()]
+    ver_2_list = [int(c) for c in version_2.split(".") if c.isdigit()]
     v1_len = len(ver_1_list)
     v2_len = len(ver_2_list)
     n = min(v1_len, v2_len)
@@ -66,7 +66,7 @@ api = FastAPI()
 
 
 @api.post(
-    "/api/v1/version-checker/",
+    "/api/v1/version-checker",
     response_model=SuccessMessage,
     responses={400: {"model": ErrorMessage}},
     status_code=200,
