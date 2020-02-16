@@ -45,7 +45,7 @@ $ python -m uvicorn --host "0.0.0.0" --port 8000 server:api
 
 ## API Endpoints
 
-**Endpoint: http://localhost:8000/api/v1/version_checker?ver_1=<version_number_1>&ver_2=<version_number_2>***
+**Endpoint: `http://localhost:8000/api/v1/version_checker?ver_1=<version_number_1>&ver_2=<version_number_2>`**
 
 **Method  : `GET`**
 
