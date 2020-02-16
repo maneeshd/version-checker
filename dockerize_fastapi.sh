@@ -15,6 +15,6 @@ docker push maneeshd/version_checker:latest
 echo ""
 echo "Pushed the docker image to DockerHub."
 echo ""
-echo "Running the image..."
-echo ""
-docker run --rm -p 8000:8000 --name version_checker maneeshd/version_checker:latest
+# echo "Running the image..."
+# echo ""
+# docker run --rm -p 8000:8000 --name version_checker maneeshd/version_checker:latest
