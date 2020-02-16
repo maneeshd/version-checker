@@ -80,6 +80,7 @@ api.add_resource(VersionChecker, VersionChecker.api_path)
 
 
 @app.route("/")
+@app.route("/docs")
 def index():
     return render_template(
         "index.html",
