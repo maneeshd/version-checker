@@ -1,5 +1,5 @@
 # Version Checker
-REST API to check given two softawre version numbers, if the 1st number is ***before** ***after*** or ***equal*** to the 2nd number.
+REST API to check given two softawre version numbers, if the 1st number is ***before*** ***after*** or ***equal*** to the 2nd number.
 
 ## Problem Statement
 
