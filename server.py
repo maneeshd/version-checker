@@ -66,7 +66,7 @@ api = FastAPI()
 
 
 @api.post(
-    "/api/v1/version_checker",
+    "/api/v1/version_checker/",
     response_model=SuccessMessage,
     responses={400: {"model": ErrorMessage}},
     status_code=200,
@@ -94,7 +94,7 @@ async def index():
 
 
 @api.get(
-    "/api/v1",
+    "/api/v1/",
     response_description="Redirects to Redoc API Documentation",
     response_class=RedirectResponse,
     status_code=301,
