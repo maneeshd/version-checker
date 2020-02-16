@@ -49,11 +49,6 @@ async def check_versions(version_1: str, version_2: str) -> str:
     return f"{version_1} is {res} {version_2}"
 
 
-class VersionCheckerBody(BaseModel):
-    version_1: str
-    version_2: str
-
-
 class SuccessMessage(BaseModel):
     result: str
 
@@ -65,16 +60,14 @@ class ErrorMessage(BaseModel):
 api = FastAPI()
 
 
-@api.post(
+@api.get(
     "/api/v1/version_checker/",
     response_model=SuccessMessage,
     responses={400: {"model": ErrorMessage}},
     status_code=200,
     description="Checks if 1st version number is 'before', 'equal' or 'after' 2nd version number",
 )
-async def version_checker(versions: VersionCheckerBody):
-    ver_1 = versions.version_1
-    ver_2 = versions.version_2
+async def version_checker(ver_1: str, ver_2: str):
     if not VERSION_REGEX.match(ver_1) or not VERSION_REGEX.match(ver_2):
         return JSONResponse(
             status_code=400, content={"message": "Invalid Version Number Format"}
