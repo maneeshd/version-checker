@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, render_template, escape
 from flask_restful import Resource, Api, reqparse, abort
 from os import urandom
 from re import compile as re_compile
 
 
 VERSION_REGEX = re_compile(r"^\d+[.\d]*(?<!\.)$")
+HOST = "localhost"
+PORT = 8000
 
 
 app = Flask(__name__)
@@ -13,6 +15,9 @@ api = Api(app)
 
 
 class VersionChecker(Resource):
+    api_path = "/api/v1/version_checker"
+    query_params = "ver_1=<version_number_1>&ver_2=<version_number_2>"
+
     parser = reqparse.RequestParser()
     parser.add_argument(
         "ver_1",
@@ -62,6 +67,7 @@ class VersionChecker(Resource):
         return f"{version_1} is {res} {version_2}"
 
     def get(self):
+        """Handles the GET request to version_checker"""
         args = self.parser.parse_args()
         ver_1 = args.get("ver_1")
         ver_2 = args.get("ver_2")
@@ -70,8 +76,19 @@ class VersionChecker(Resource):
         abort(400, message="Invalid Version Number Format")
 
 
-api.add_resource(VersionChecker, "/api/v1/version_checker")
+api.add_resource(VersionChecker, VersionChecker.api_path)
+
+
+@app.route("/")
+def index():
+    return render_template(
+        "index.html",
+        host=HOST,
+        port=PORT,
+        api_path=VersionChecker.api_path,
+        query_params=escape(VersionChecker.query_params),
+    )
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8000, threaded=True, debug=False)
+    app.run(host="0.0.0.0", port=PORT, threaded=True, debug=False)

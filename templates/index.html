@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="text-align:center; padding: 10px; margin-top:10px; font-family: Helvetica;">
+        <h1>Version Checker</h1>
+
+        <h2>API Endpoint</h2>
+        <h3>
+            <code>
+                GET: http://{{ host }}:{{ port }}{{ api_path }}?{{ query_params|safe }}
+            </code>
+        </h3>
+
+        <br />
+
+        <h2>Examples</h2>
+
+        <h3>
+            Request:&nbsp;
+            <code>
+                GET: http://{{ host }}:{{ port }}{{ api_path }}?ver_1=1.0.0&ver_2=1.0.1
+            </code>
+            <br />
+            Response:&nbsp;
+            <code>
+                {result: "1.0.0 is before 1.0.1"}
+            </code>
+        </h3>
+        <br />
+        <h3>
+            Request:&nbsp;
+            <code>
+                GET: http://{{ host }}:{{ port }}{{ api_path }}?ver_1=2.0&ver_2=1.0.1
+            </code>
+            <br />
+            Response:&nbsp;
+            <code>
+                {"result": "2.0 is after 1.0.1"}
+            </code>
+        </h3>
+        <br />
+        <h3>
+            Request:&nbsp;
+            <code>
+                GET: http://{{ host }}:{{ port }}{{ api_path }}?ver_1=2.0&ver_2=2.0
+            </code>
+            <br />
+            Response:&nbsp;
+            <code>
+                {"result": "2.0 is equal to 2.0"}
+            </code>
+        </h3>
+    </div>
+</body>
+
+</html>

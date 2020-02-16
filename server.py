@@ -66,7 +66,7 @@ api = FastAPI()
 
 
 @api.post(
-    "/api/v1/version-checker",
+    "/api/v1/version_checker",
     response_model=SuccessMessage,
     responses={400: {"model": ErrorMessage}},
     status_code=200,
