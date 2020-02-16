@@ -15,7 +15,7 @@ Examples:
 
 ## Solution
 
-I have used **[FastAPI](https://fastapi.tiangolo.com/)** to create the REST API web service. This framework offers asynchronous code running and is based on [ASGI](https://asgi.readthedocs.io/en/latest/) and in-built API documentation generator.
+I have used **[FastAPI](https://fastapi.tiangolo.com/)** to create the REST API web service. This framework offers asynchronous code running and is based on [ASGI](https://asgi.readthedocs.io/en/latest/) and has in-built API documentation generator.
 
 ## Requirements
 
