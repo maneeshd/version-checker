@@ -9,9 +9,9 @@ REST API to check given two softawre version numbers, if the 1st number is ***be
 
 Examples:
 
-**`1.0.0`** is ***"before"*** **`1.0.1`**
+1.0.0 is "before" 1.0.1
 
-**`2.0`** is ***"after"*** **`1.0.0`**
+2.0 is "after" 1.0.0
 
 ## Solution
 
