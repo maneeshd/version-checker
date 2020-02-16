@@ -25,6 +25,8 @@ I have used **[FastAPI](https://fastapi.tiangolo.com/)** to create the REST API 
 
 ## Running the app
 
+- Server/API code is in **[server.py](server.py)**
+
 - Install the python packages
 
 ```bash
@@ -96,6 +98,8 @@ $ docker rm -f version_checker
 There is also a [Flask-Restful](https://flask-restful.readthedocs.io/en/latest/) version of the api and a corresponding docker image.
 
 The API Endpoints, paths and query string format are the same as above.
+
+**Server/API code is in [flask_server.py](flask_server.py)**
 
 **Running this verison of the api:**
 
