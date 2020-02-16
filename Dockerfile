@@ -5,7 +5,7 @@ LABEL maintainer="Maneesh Divana <maneeshd77@gmail.com>"
 LABEL description="A slim image to run a FastAPI server using uvicorn/uvloop for version checker"
 LABEL version="1.0"
 
-COPY requirements.txt /api
+COPY requirements.txt /api/
 
 RUN apk add --no-cache --virtual .build-deps gcc libc-dev make \
     && python -m pip install -U -r /api/requirements.txt \
