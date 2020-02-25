@@ -17,6 +17,8 @@ Examples:
 
 I have used **[FastAPI](https://fastapi.tiangolo.com/)** to create the REST API web service. This framework offers asynchronous code running and is based on [ASGI](https://asgi.readthedocs.io/en/latest/) and has in-built API documentation generator.
 
+Server/API code is in **[server.py](server.py)**
+
 ## Requirements
 
 - [Python](https://www.python.org/downloads/release/python-376/) >= `3.6.8` (`3.7.6` recommended)
@@ -24,8 +26,6 @@ I have used **[FastAPI](https://fastapi.tiangolo.com/)** to create the REST API 
 - [Docker](https://www.docker.com/products/docker-desktop) (if running the docker image)
 
 ## Running the app
-
-- Server/API code is in **[server.py](server.py)**
 
 - Install the python packages
 
