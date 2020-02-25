@@ -44,6 +44,8 @@ async def check_versions(version_1: str, version_2: str) -> str:
             break
     if res == "equal" and v2_len > v1_len and any(ver_2_list[v1_len:v2_len]):
         res = "before"
+    if res == "equal" and v1_len > v2_len and any(ver_1_list[v2_len:v1_len]):
+        res = "after"
     if res == "equal":
         res = "equal to"
     return f"{version_1} is {res} {version_2}"
