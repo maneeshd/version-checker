@@ -18,6 +18,8 @@ class VersionChecker(Resource):
     api_path = "/api/v1/version_checker"
     query_params = "ver_1=<version_number_1>&ver_2=<version_number_2>"
 
+    str_map = {-1: "before", 0: "equal to", 1: "after"}
+
     parser = reqparse.RequestParser()
     parser.add_argument(
         "ver_1",
@@ -32,7 +34,7 @@ class VersionChecker(Resource):
         help="ver_2 (Version Number 2) is Required as query parameter",
     )
 
-    def _check_versions(self, version_1: str, version_2: str) -> str:
+    def _check_versions(self, version_1: str, version_2: str) -> int:
         """Checks if 1st version number is "before",
         "equal" or "after" the 2nd version number
 
@@ -42,31 +44,30 @@ class VersionChecker(Resource):
         :param version_2: Version Number 2
         :type version_2: str
 
-        :return: "before" or "equal" or "after"
-        :rtype: str
+        :return: -1 for "before" or 0 for "equal" or 1 for "after"
+        :rtype: int
         """
         ver_1_list = [int(c) for c in version_1.split(".") if c.isdigit()]
         ver_2_list = [int(c) for c in version_2.split(".") if c.isdigit()]
         v1_len = len(ver_1_list)
         v2_len = len(ver_2_list)
         n = min(v1_len, v2_len)
-        res = None
+        res = 0
         for i in range(n):
             if ver_1_list[i] == ver_2_list[i]:
-                res = "equal"
+                res = 0
             elif ver_1_list[i] > ver_2_list[i]:
-                res = "after"
+                res = 1
                 break
             else:
-                res = "before"
+                res = -1
                 break
-        if res == "equal" and v2_len > v1_len and any(ver_2_list[v1_len:v2_len]):
-            res = "before"
-        if res == "equal" and v1_len > v2_len and any(ver_1_list[v2_len:v1_len]):
-            res = "after"
-        if res == "equal":
-            res = "equal to"
-        return f"{version_1} is {res} {version_2}"
+        if res == 0:
+            if v2_len > v1_len and any(ver_2_list[v1_len:]):
+                res = -1
+            elif v1_len > v2_len and any(ver_1_list[v2_len:]):
+                res = 1
+        return res
 
     def get(self):
         """Handles the GET request to version_checker"""
@@ -74,7 +75,8 @@ class VersionChecker(Resource):
         ver_1 = args.get("ver_1")
         ver_2 = args.get("ver_2")
         if VERSION_REGEX.match(ver_1) and VERSION_REGEX.match(ver_2):
-            return {"result": self._check_versions(ver_1, ver_2)}
+            key = self._check_versions(ver_1, ver_2)
+            return {"result": f"{ver_1} is {self.str_map.get(key)} {ver_2}"}
         abort(400, message="Invalid Version Number Format")
 
 

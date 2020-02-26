@@ -14,7 +14,7 @@ from re import compile as re_compile
 VERSION_REGEX = re_compile(r"^\d+[.\d]*(?<!\.)$")
 
 
-async def check_versions(version_1: str, version_2: str) -> str:
+async def check_versions(version_1: str, version_2: str) -> int:
     """Checks if 1st version number is "before",
     "equal" or "after" the 2nd version number
 
@@ -24,31 +24,30 @@ async def check_versions(version_1: str, version_2: str) -> str:
     :param version_2: Version Number 2
     :type version_2: str
 
-    :return: "before" or "equal" or "after"
-    :rtype: str
+    :return: -1 for "before" or 0 for "equal" or 1 for "after"
+    :rtype: int
     """
     ver_1_list = [int(c) for c in version_1.split(".") if c.isdigit()]
     ver_2_list = [int(c) for c in version_2.split(".") if c.isdigit()]
     v1_len = len(ver_1_list)
     v2_len = len(ver_2_list)
     n = min(v1_len, v2_len)
-    res = None
+    res = 0
     for i in range(n):
         if ver_1_list[i] == ver_2_list[i]:
-            res = "equal"
+            res = 0
         elif ver_1_list[i] > ver_2_list[i]:
-            res = "after"
+            res = 1
             break
         else:
-            res = "before"
+            res = -1
             break
-    if res == "equal" and v2_len > v1_len and any(ver_2_list[v1_len:v2_len]):
-        res = "before"
-    if res == "equal" and v1_len > v2_len and any(ver_1_list[v2_len:v1_len]):
-        res = "after"
-    if res == "equal":
-        res = "equal to"
-    return f"{version_1} is {res} {version_2}"
+    if res == 0:
+        if v2_len > v1_len and any(ver_2_list[v1_len:]):
+            res = -1
+        elif v1_len > v2_len and any(ver_1_list[v2_len:]):
+            res = 1
+    return res
 
 
 class SuccessMessage(BaseModel):
@@ -60,6 +59,9 @@ class ErrorMessage(BaseModel):
 
 
 api = FastAPI()
+
+
+STR_MAP = {-1: "before", 0: "equal to", 1: "after"}
 
 
 @api.get(
@@ -74,7 +76,8 @@ async def version_checker(ver_1: str, ver_2: str):
         return JSONResponse(
             status_code=400, content={"message": "Invalid Version Number Format"}
         )
-    return {"result": await check_versions(ver_1, ver_2)}
+    key = await check_versions(ver_1, ver_2)
+    return {"result": f"{ver_1} is {STR_MAP.get(key)} {ver_2}"}
 
 
 @api.get(
